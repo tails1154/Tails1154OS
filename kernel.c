@@ -118,15 +118,43 @@ void terminal_writestring(const char* data)
 {
 	terminal_write(data, strlen(data));
 }
-
+void terminal_linuxok(const char* data)
+{
+	terminal_setcolor(7);
+	terminal_writestring("[  ");
+	terminal_setcolor(2);
+	terminal_writestring("OK");
+	terminal_setcolor(7);
+	terminal_writestring("  ] ");
+	terminal_setcolor(7);
+	terminal_writestring(data);
+	terminal_writestring("\n");
+}
+void terminal_linuxfail(const char* data)
+{
+	terminal_setcolor(7);
+	terminal_writestring("[ ");
+	terminal_setcolor(12);
+	terminal_writestring("FAIL");
+	terminal_setcolor(7);
+	terminal_writestring(" ] ");
+	terminal_setcolor(7);
+	terminal_writestring(data);
+	terminal_writestring("\n");
+}
 void kernel_main(void) 
 {
 	/* Initialize terminal interface */
 	terminal_initialize();
 
 	/* Newline support is left as an exercise. */
+	terminal_setcolor(3);
 	terminal_writestring("Tails1154 OS\n");
+	terminal_setcolor(7);
+	terminal_writestring("\n");
 	terminal_writestring("i should test things more before i make things out of them\n");
+	terminal_linuxok("real");
+	terminal_linuxfail("Make OS");
 
 
 }
