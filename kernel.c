@@ -126,6 +126,7 @@ void kernel_main(void)
 
 	/* Newline support is left as an exercise. */
 	terminal_writestring("Tails1154 OS\n");
+	terminal_writestring("i should test things more before i make things out of them\n");
 
 
 }

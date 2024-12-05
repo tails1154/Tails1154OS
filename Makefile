@@ -30,3 +30,8 @@ iso:
 	make grub
 os:
 	make boot
+usb:
+	make clean
+	make build
+	make grub
+	./usb.sh
