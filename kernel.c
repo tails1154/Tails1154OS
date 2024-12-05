@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
+
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -57,7 +58,13 @@ size_t terminal_row;
 size_t terminal_column;
 uint8_t terminal_color;
 uint16_t* terminal_buffer;
-
+int strcmp(const char *str1, const char *str2) {
+	while (*str1 && (*str1 == *str2)) {
+		str1++;
+		str2++;
+	}
+	return *(unsigned char *)str1 - *(unsigned char *)str2;
+}
 void terminal_initialize(void) 
 {
 	terminal_row = 0;
@@ -85,11 +92,19 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 
 void terminal_putchar(char c) 
 {
-	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
-	if (++terminal_column == VGA_WIDTH) {
-		terminal_column = 0;
-		if (++terminal_row == VGA_HEIGHT)
-			terminal_row = 0;
+	if (c == '\n') {
+		terminal_column = 0; // Reset column
+		if (++terminal_row == VGA_HEIGHT) {
+			terminal_row = 0; // Wrap around if reaching the bottom
+		}
+	}
+	else {
+		terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+		if (++terminal_column == VGA_WIDTH) {
+			terminal_column = 0;
+			if (++terminal_row == VGA_HEIGHT)
+				terminal_row = 0;
+		}
 	}
 }
 
@@ -110,5 +125,7 @@ void kernel_main(void)
 	terminal_initialize();
 
 	/* Newline support is left as an exercise. */
-	terminal_writestring("Hello, kernel World!\n");
+	terminal_writestring("Tails1154 OS\n");
+
+
 }
